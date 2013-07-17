@@ -59,7 +59,7 @@ def name(recipe):
 
 def categories(recipe):
     for category in recipe['categories']:
-        yield ('categ', category)
+        yield ('categ', str(category))
 
 def extract(filename):
     with open(filename) as f:
