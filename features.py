@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from collections import deque, Counter
 import re
@@ -6,6 +7,8 @@ import json
 
 import helper
 import jptokenizer
+
+STOP_WORDS = set([u'話題', u'題入り', u'話'])
 
 class FeatureVector(dict):
     def todict(self):
@@ -19,7 +22,7 @@ TOKENIZER = jptokenizer.JPSimpleTokenizer()
 def tokenize(s):
     return TOKENIZER.tokenize(s)
 
-def ngrams(tokens):
+def _ngrams(tokens):
     """ N-gram features """
     ngram = deque(maxlen=3)
     for token in tokens:
@@ -29,6 +32,13 @@ def ngrams(tokens):
             yield (2, '%s %s' % (ngram[-2], ngram[-1]))
         if len(ngram) == 3:
             yield (3, ' '.join(ngram))
+
+def ngrams(tokens):
+    for (c, w) in _ngrams(tokens):
+        words = set(w.split())
+        if words & STOP_WORDS:
+            continue
+        yield (c, w)
 
 def description(recipe):
     desc = tokenize(recipe['description'])
