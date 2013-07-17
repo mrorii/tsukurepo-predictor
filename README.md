@@ -38,4 +38,4 @@ Split the data into train, dev, and test set.
 
 ## Train and test
 
-    python classify.py
+    python classify.py split-data --pr_curve pr.png
