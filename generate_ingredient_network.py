@@ -37,7 +37,10 @@ def calc_pmis(ingredient2recipes, valid_ingredients, num_recipes):
             continue
 
         denominator = len(ingredient2recipes[a]) * len(ingredient2recipes[b])
-        pmi = math.log(float(numerator) / denominator)
+
+        # Do NOT take the log, as negative numbers screw up
+        # the backbone calculation
+        pmi = float(numerator) / denominator
         yield a, b, pmi
 
 def main():
