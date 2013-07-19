@@ -4,7 +4,7 @@ import json
 import argparse
 from collections import Counter
 
-import helper
+import preprocessing
 
 def main():
     parser = argparse.ArgumentParser(description='Inspect top n ingredients')
@@ -20,7 +20,7 @@ def main():
             ingredients = recipe['ingredients']
 
             for ingredient in ingredients:
-                for normalized_ingredient in helper.normalize(ingredient):
+                for normalized_ingredient in preprocessing.normalize(ingredient):
                     ingredients_counter[normalized_ingredient] += 1
 
     for ingredient, count in ingredients_counter.most_common(args.n):

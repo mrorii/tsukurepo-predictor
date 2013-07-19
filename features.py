@@ -5,7 +5,7 @@ from collections import deque, Counter
 import re
 import json
 
-import helper
+import preprocessing
 import jptokenizer
 
 STOP_WORDS = set([u'話題', u'題入り', u'話'])
@@ -48,7 +48,7 @@ def description(recipe):
 def ingredients(recipe):
     ingredientz = recipe['ingredients']
     for ingredient in ingredientz:
-        normalized_ingredients = helper.normalize(ingredient)
+        normalized_ingredients = preprocessing.normalize(ingredient)
         for normalized_ingredient in normalized_ingredients:
             yield ('ingr', normalized_ingredient)
 
