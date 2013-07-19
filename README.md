@@ -23,11 +23,23 @@ In the steps below, we assume that the file is named `cookpad.json`.
 
 ## Inspect frequently used ingredients
 
-    python inspect_ingredients.py --n 1000 cookpad.json > top_ingredients.txt
+    python inspect_ingredients.py --n 1000 cookpad.json > ingredient_top.txt
 
 ## Plot a histogram of tsukurepo counts
 
     python inspect_report_count.py --xmax 200 cookpad.json tsukurepo_counts.png
+
+## Pickle ingredient-ID mapping
+
+    python generate_ingredient_mapping.py --threshold 5 cookpad.json ingredient_mapping.pkl
+
+## Generate an ingredient complement network
+
+    python generate_ingredient_network.py cookpad.json ingredient_mapping.pkl ingredient_complement.gml
+
+## Extract the backbone from the network
+
+    python extract_network_backbone.py --alpha 0.05 ingredient_complement.gml ingredient_complement_backbone.gml
 
 ## Split data
 
