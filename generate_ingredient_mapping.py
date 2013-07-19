@@ -33,7 +33,7 @@ def main():
     ingredient_id = 1
     ingredient2id = {}
     for ingredient in sorted(ingredients_counter):
-        count = ingredients_counter['ingredient']
+        count = ingredients_counter[ingredient]
         if count < args.threshold:
             continue
         ingredient2id[ingredient] = ingredient_id
