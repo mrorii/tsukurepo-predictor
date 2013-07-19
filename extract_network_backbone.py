@@ -22,7 +22,7 @@ def extract_backbone(g, alpha):
             sum_w = sum(g[node][neighbor]['weight'] for neighbor in g[node])
             for neighbor in g[node]:
                 edge_weight = g[node][neighbor]['weight']
-                pij = float(edgeWeight)/sum_w
+                pij = float(edge_weight) / sum_w
                 f = lambda x: (1-x)**(k_n-2) 
                 alpha_ij =  1 - (k_n-1) * scipy.integrate.quad(f, 0, pij)[0] 
                 if alpha_ij < alpha: 
