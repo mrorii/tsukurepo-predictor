@@ -1,5 +1,7 @@
+matplotlib
+networkx
 nltk
 numpy
-matplotlib
-zenhan
+scipy
 sklearn
+zenhan
