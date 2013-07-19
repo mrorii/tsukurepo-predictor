@@ -10,6 +10,8 @@ SURROUNDS = (
     re.compile(ur'\[.*\]'),
 )
 
+UNCLOSED_PAREN = re.compile(ur"(\w+)\([^(]+", re.UNICODE)
+
 STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
 SPLIT = re.compile(ur'or|OR|または|又は|/|\+')
@@ -34,6 +36,10 @@ def normalize(ingredient):
 
     for SURROUND in SURROUNDS:
         ingredient = SURROUND.sub(lambda s: '', ingredient)
+
+    match = UNCLOSED_PAREN.match(ingredient)
+    if match:
+        ingredient = match.groups()[0]
 
     ingredient = zenhan.h2z(ingredient, mode=4)  # only deal with katakana
 
