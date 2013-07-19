@@ -16,7 +16,7 @@ STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
 SPLIT = re.compile(ur'or|OR|または|又は|/|\+')
 
-OPTIONAL = re.compile(ur'好みの|お好みの|お好みにより')
+OPTIONAL_START = re.compile(ur'^(好みの|お好みの|お好みにより|あれば|お好きの|お好きな)')
 
 SPECIAL_SYMBOLS = (
     re.compile(ur'\*'),
@@ -44,6 +44,8 @@ def normalize(ingredient):
 
     for SURROUND in SURROUNDS:
         ingredient = SURROUND.sub(lambda s: '', ingredient)
+
+    ingredient = OPTIONAL_START.sub(lambda s: '', ingredient)
 
     match = UNCLOSED_PAREN.match(ingredient)
     if match:
@@ -76,6 +78,11 @@ if __name__ == '__main__':
         u'ケチャップ+ソース+醤油',
         u'(じゃこ白胡麻海苔',
         u'EXオリーブオイル',
+        u'スィートチリソース（今回はID：1384495 を使いました。）',
+        u'梅干し(ほぐして種ごと',
+        u'あればローリエ',
+        u'お好きな葉野菜',
+        u'酒あれば泡盛',
     ]
 
     for ingredient in ingredients:
