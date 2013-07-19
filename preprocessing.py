@@ -5,28 +5,28 @@ import re
 import zenhan
 
 SURROUNDS = (
-    re.compile(ur'\(.*\)', re.UNICODE),
-    re.compile(ur'\（.*\）', re.UNICODE),
-    re.compile(ur'\[.*\]', re.UNICODE),
+    re.compile(ur'\(.*\)'),
+    re.compile(ur'\（.*\）'),
+    re.compile(ur'\[.*\]'),
 )
 
-STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")  # do NOT use UNICODE
+STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
 SPLIT = re.compile(ur'or|OR|または|又は|/\+')
 
 OPTIONAL = re.compile(ur'好みの|お好みの|お好みにより')
 
 SPECIAL_SYMBOLS = (
-    re.compile(ur'\*', re.UNICODE),
-    re.compile(ur'\u30fb', re.UNICODE),
-    re.compile(ur'[\u2000-\u206f]', re.UNICODE),  # punctuation
-    re.compile(ur'[\u2460-\u24ff]', re.UNICODE),  # enclosed alphanumerics
-    re.compile(ur'[\u2500-\u257f]', re.UNICODE),  # box drawing
-    re.compile(ur'[\u25a0-\u25ff]', re.UNICODE),  # geometric shapes
-    re.compile(ur'[\u2600-\u26ff]', re.UNICODE),  # miscellaneous symbols
-    re.compile(ur'[\u2700-\u27bf]', re.UNICODE),  # dingbats
-    re.compile(ur'[\u3000-\u303f]', re.UNICODE),  # cjk symbols and punctuation
-    re.compile(ur'[\uff00-\uffef]', re.UNICODE),  # halfwidth and fullwdith forms
+    re.compile(ur'\*'),
+    re.compile(ur'\u30fb'),
+    re.compile(ur'[\u2000-\u206f]'),  # punctuation
+    re.compile(ur'[\u2460-\u24ff]'),  # enclosed alphanumerics
+    re.compile(ur'[\u2500-\u257f]'),  # box drawing
+    re.compile(ur'[\u25a0-\u25ff]'),  # geometric shapes
+    re.compile(ur'[\u2600-\u26ff]'),  # miscellaneous symbols
+    re.compile(ur'[\u2700-\u27bf]'),  # dingbats
+    re.compile(ur'[\u3000-\u303f]'),  # cjk symbols and punctuation
+    re.compile(ur'[\uff00-\uffef]'),  # halfwidth and fullwdith forms
 )
 
 def normalize(ingredient):
