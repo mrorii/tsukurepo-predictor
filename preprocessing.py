@@ -12,7 +12,7 @@ SURROUNDS = (
 
 STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")  # do NOT use UNICODE
 
-SPLIT = re.compile(ur'or|OR|または|又は|/')
+SPLIT = re.compile(ur'or|OR|または|又は|/\+')
 
 OPTIONAL = re.compile(ur'好みの|お好みの|お好みにより')
 
