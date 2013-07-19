@@ -38,7 +38,7 @@ def normalize(ingredient):
     ingredient = zenhan.h2z(ingredient, mode=4)  # only deal with katakana
 
     match = STARTS_WITH_ALPHA.match(ingredient)
-    if match and not ingrient.startswith('S&B'):
+    if match and not ingredient.startswith('S&B'):
         ingredient = match.groups()[0]
 
     for SPECIAL_SYMBOL in SPECIAL_SYMBOLS:
