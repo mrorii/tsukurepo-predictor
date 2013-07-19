@@ -14,7 +14,7 @@ UNCLOSED_PAREN = re.compile(ur"(\w+)\([^(]+", re.UNICODE)
 
 STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
-SPLIT = re.compile(ur'or|OR|または|又は|/|\+')
+SPLIT = re.compile(ur'or|OR|または|又は|/|\+|あれば')
 
 OPTIONAL_START = re.compile(ur'^(好みの|お好みの|お好みにより|あれば|お好きの|お好きな)')
 
