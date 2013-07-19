@@ -12,7 +12,7 @@ SURROUNDS = (
 
 STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
-SPLIT = re.compile(ur'or|OR|または|又は|/\+')
+SPLIT = re.compile(ur'or|OR|または|又は|/|\+')
 
 OPTIONAL = re.compile(ur'好みの|お好みの|お好みにより')
 
@@ -60,3 +60,7 @@ if __name__ == '__main__':
         u'(じゃこ白胡麻海苔',
         u'EXオリーブオイル',
     ]
+
+    for ingredient in ingredients:
+        for normalized_ingredient in normalize(ingredient):
+            print normalized_ingredient.encode('utf8')
