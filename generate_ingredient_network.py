@@ -58,7 +58,7 @@ def main():
     graph = nx.Graph()
     pmis = [] 
     for a, b, pmi in calc_pmis(ingredient2recipes, valid_ingredients, args.num_recipes):
-        graph.add_edge(ingredient2id[a], ingredient2id[b], weight=pmi)
+        graph.add_edge(str(ingredient2id[a]), str(ingredient2id[b]), weight=pmi)
         pmis.append(pmi)
 
     with open(args.gml, 'w') as f:

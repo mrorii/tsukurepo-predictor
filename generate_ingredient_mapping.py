@@ -30,7 +30,7 @@ def main():
                 for normalized_ingredient in preprocessing.normalize(ingredient):
                     ingredients_counter[normalized_ingredient] += 1
 
-    ingredient_id = 1
+    ingredient_id = 0
     ingredient2id = {}
     for ingredient in sorted(ingredients_counter):
         count = ingredients_counter[ingredient]
