@@ -16,7 +16,7 @@ STARTS_WITH_ALPHA = re.compile(ur"^[a-zA-Z][.:()（）\s]*([^a-zA-Z]+)")
 
 SPLIT = re.compile(ur'or|OR|または|又は|/|\+|あれば')
 
-OPTIONAL_START = re.compile(ur'^(好みの|お好みの|お好みにより|あれば|お好きの|お好きな)')
+OPTIONAL_START = re.compile(ur'^(好みの|お好みの|お好みにより|あれば|お好きの|お好きな|市販の)')
 
 SPECIAL_SYMBOLS = (
     re.compile(ur'\*'),
@@ -85,6 +85,7 @@ if __name__ == '__main__':
         u'あればローリエ',
         u'お好きな葉野菜',
         u'酒あれば泡盛',
+        u'市販のカレールー',
     ]
 
     for ingredient in ingredients:
