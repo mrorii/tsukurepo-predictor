@@ -16,7 +16,7 @@ def main():
     parser.add_argument('json', help='Input data file')
     parser.add_argument('--threshold', type=int, default=5,
                         help='Cutoff of how many times an ingredient should occur in recipes',)
-    parser.add_argument('pkl', help='Ouptut pickle file')
+    parser.add_argument('pkl', help='Output pickle file')
     args = parser.parse_args()
 
     ingredients_counter = Counter()

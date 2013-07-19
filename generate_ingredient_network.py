@@ -44,7 +44,7 @@ def main():
     parser = argparse.ArgumentParser(description='Generate ingredient complement network')
     parser.add_argument('json', help='Input data file')
     parser.add_argument('mapping', help='Input ingredient-ID mapping file')
-    parser.add_argument('gml', help='Ouptut network gml file')
+    parser.add_argument('gml', help='Output network gml file')
     parser.add_argument('--num_recipes', help='Number of recipes', type=int, default=47884)
     parser.add_argument('--histo', help='Output PMI histogram file')
     args = parser.parse_args()
