@@ -31,6 +31,14 @@ SPECIAL_SYMBOLS = (
     re.compile(ur'[\uff00-\uffef]'),  # halfwidth and fullwdith forms
 )
 
+def make_function_hiragana():
+    re_katakana = re.compile(ur'[ァ-ヴ]')
+    def hiragana(text):
+        """ひらがな変換"""
+        return re_katakana.sub(lambda x: unichr(ord(x.group(0)) - 0x60), text)
+    return hiragana
+hiragana = make_function_hiragana()
+
 def normalize(ingredient):
     ingredient = ingredient.strip()
 
@@ -42,6 +50,9 @@ def normalize(ingredient):
         ingredient = match.groups()[0]
 
     ingredient = zenhan.h2z(ingredient, mode=4)  # only deal with katakana
+
+    # convert all katakana to hiragana
+    ingredient = hiragana(ingredient)
 
     match = STARTS_WITH_ALPHA.match(ingredient)
     if match and not ingredient.startswith('S&B'):
