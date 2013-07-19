@@ -65,6 +65,8 @@ def normalize(ingredient):
 
     ingredients = map(lambda ingr: ingr.strip(), SPLIT.split(ingredient))
     for ingredient in ingredients:
+        if not ingredient:
+            continue
         yield ingredient
 
 if __name__ == '__main__':
