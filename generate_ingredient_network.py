@@ -27,7 +27,7 @@ def load_ingredient2recipes(filename):
                     ingredient2recipes[normalized_ingredient].add(recipe_id)
     return ingredient2recipes
 
-def calc_pmis(ingredient2recipes, valid_ingredients, num_recipes):
+def calc_pmis(ingredient2recipes, valid_ingredients, num_recipes, use_log=False):
     for a, b in itertools.combinations(ingredient2recipes.iterkeys(), 2):
         if not a in valid_ingredients or not b in valid_ingredients:
             continue
@@ -38,18 +38,21 @@ def calc_pmis(ingredient2recipes, valid_ingredients, num_recipes):
 
         denominator = len(ingredient2recipes[a]) * len(ingredient2recipes[b])
 
-        # Do NOT take the log, as negative numbers screw up
-        # the backbone calculation
         pmi = float(numerator) / denominator
+        if use_log:
+            pmi = math.log(pmi)
+
         yield a, b, pmi
 
 def main():
     parser = argparse.ArgumentParser(description='Generate ingredient complement network')
     parser.add_argument('json', help='Input data file')
     parser.add_argument('mapping', help='Input ingredient-ID mapping file')
-    parser.add_argument('gml', help='Output network gml file')
+    parser.add_argument('pkl', help='Output network pkl file')
     parser.add_argument('--num_recipes', help='Number of recipes', type=int, default=47884)
     parser.add_argument('--histo', help='Output PMI histogram file')
+    parser.add_argument('--log', action='store_true', help='Use log for calculating PMI',
+                        default=False)
     args = parser.parse_args()
 
     with open(args.mapping, 'r') as f:
@@ -59,14 +62,17 @@ def main():
     ingredient2recipes = load_ingredient2recipes(args.json)
 
     graph = nx.Graph()
-    pmis = [] 
-    for a, b, pmi in calc_pmis(ingredient2recipes, valid_ingredients, args.num_recipes):
-        graph.add_edge(str(ingredient2id[a]), str(ingredient2id[b]), weight=pmi)
+    pmis = []
+    for a, b, pmi in calc_pmis(ingredient2recipes, valid_ingredients, args.num_recipes, args.log):
+        graph.add_edge(a, b, weight=pmi)
+        graph.node[a]['num_recipes'] = len(ingredient2recipes[a])
+        graph.node[b]['num_recipes'] = len(ingredient2recipes[b])
         pmis.append(pmi)
+        # print '{}\t{}\t{}\t{}\t{}'.format(pmi, a.encode('utf8'), b.encode('utf8'),
+        #                                   len(ingredient2recipes[a]), len(ingredient2recipes[b]))
 
-    with open(args.gml, 'w') as f:
-        for line in nx.generate_gml(graph):
-            f.write('{}\n'.format(line))
+    with open(args.pkl, 'w') as f:
+        pickle.dump(graph, f)
 
     if args.histo:
         import pylab as pl

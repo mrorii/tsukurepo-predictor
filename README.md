@@ -31,15 +31,15 @@ In the steps below, we assume that the file is named `cookpad.json`.
 
 ## Pickle ingredient-ID mapping
 
-    python generate_ingredient_mapping.py --threshold 5 cookpad.json ingredient_mapping.pkl
+    python generate_ingredient_mapping.py --threshold 10 cookpad.json ingredient_mapping.pkl
 
 ## Generate an ingredient complement network
 
-    python generate_ingredient_network.py cookpad.json ingredient_mapping.pkl ingredient_complement.gml
+    python generate_ingredient_network.py cookpad.json ingredient_mapping.pkl ingredient_complement_network.pkl
 
 ## Extract the backbone from the network
 
-    python extract_network_backbone.py --alpha 0.05 ingredient_complement.gml ingredient_complement_backbone.gml
+    python extract_network_backbone.py --alpha 0.01 ingredient_complement_network.pkl ingredient_complement_backbone.gexf
 
 ## Split data
 
