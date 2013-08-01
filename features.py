@@ -27,7 +27,8 @@ mecab = MeCab.Tagger("-Owakati")
 
 
 def tokenize(s):
-    output = mecab.parse(s)
+    string = s.encode("utf-8")
+    output = mecab.parse(string)
     tokens = output.decode('utf8')
     for token in tokens.strip().split(' '):
         yield token
