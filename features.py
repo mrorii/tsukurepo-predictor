@@ -43,33 +43,51 @@ def _ngrams(tokens):
         if len(ngram) == 3:
             yield (3, ' '.join(ngram))
 
-def ngrams(tokens):
+def ngrams(string):
+    tokens = tokenize(string)
     for (c, w) in _ngrams(tokens):
-        words = set(w.split())
+        words = set(''.join(w.split()))
         if words & STOP_WORDS:
             continue
         yield (c, w)
 
 def description(recipe):
-    desc = tokenize(recipe['description'])
+    desc = recipe['description']
     for (c, w) in ngrams(desc):
-        yield ('desc', str(c), w)
+        yield ('text', 'desc', str(c), w)
 
 def ingredients(recipe):
     ingredientz = recipe['ingredients']
     for ingredient in ingredientz:
         normalized_ingredients = preprocessing.normalize(ingredient)
         for normalized_ingredient in normalized_ingredients:
-            yield ('ingr', normalized_ingredient)
+            yield ('meta', 'ingr', normalized_ingredient)
 
-def name(recipe):
+def title(recipe):
     name = recipe['name']
     for (c, w) in ngrams(name):
-        yield ('name', str(c), w)
+        yield ('text', 'title', str(c), w)
 
 def categories(recipe):
     for category in recipe['categories']:
-        yield ('categ', str(category))
+        yield ('meta', 'categ', str(category))
+
+def author(recipe):
+    return ('meta', 'author', str(recipe['author']))
+
+def history(recipe):
+    hist = recipe['history'] if 'history' in recipe else ''
+    for (c, w) in ngrams(hist):
+        yield ('text', 'history', str(c), w)
+
+def advice(recipe):
+    adv = recipe['advice'] if 'advice' in recipe else ''
+    for (c, w) in ngrams(adv):
+        yield ('text', 'advice', str(c), w)
+
+def has_instruction_images(recipe):
+    key = 'images_instruction'
+    return int(key in recipe and len(recipe[key]) > 0)
 
 def extract(filename):
     with open(filename) as f:
@@ -83,8 +101,15 @@ def extract(filename):
                 features[category] = 1
             for ngram in description(recipe):
                 features[ngram] = 1
-            for ngram in name(recipe):
+            for ngram in title(recipe):
                 features[ngram] = 1
+            for ngram in history(recipe):
+                features[ngram] = 1
+            for ngram in advice(recipe):
+                features[ngram] = 1
+
+            features[author(recipe)] = 1
+            features[('meta', 'inst_img')] = has_instruction_images(recipe)
 
             label = recipe['label'] if 'label' in recipe else 0
             yield features, label
