@@ -5,6 +5,8 @@ from collections import deque, Counter
 import re
 import json
 
+import MeCab
+
 import preprocessing
 import jptokenizer
 
@@ -17,10 +19,14 @@ class FeatureVector(dict):
                 yield ':'.join(fname), fval
         return dict(kv())
 
-TOKENIZER = jptokenizer.JPSimpleTokenizer()
+mecab = MeCab.Tagger("-Owakati")
+
 
 def tokenize(s):
-    return TOKENIZER.tokenize(s)
+    output = mecab.parse(s)
+    tokens = output.decode('utf8')
+    for token in tokens.strip().split(' '):
+        yield token
 
 def _ngrams(tokens):
     """ N-gram features """
