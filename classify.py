@@ -7,13 +7,14 @@ from itertools import islice
 
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import f1_score, precision_recall_curve, auc, confusion_matrix
+from sklearn.metrics import (f1_score, precision_recall_curve, auc, confusion_matrix,
+                             accuracy_score)
 import pylab as pl
 
 import features
 
-MASK = set(['desc', 'meta'])
-
+# MASK = set(['meta'])
+MASK = set(['meta', 'text'])
 
 def read_dataset(filename):
     X, y = [], []
@@ -85,24 +86,25 @@ def main():
     X_dev = vectorizer.transform(X_dev)
 
     logging.info('Training...')
-    f1_scores = []
+    scores = []
     for regularization in (0.01, 0.1, 1, 10, 100, 1000):
         model = LogisticRegression(penalty='l1', C=regularization, class_weight='auto')
         logging.info('regularization parameter: {0}'.format(regularization))
         model.fit(X_train, y_train)
-        score = f1_score(y_dev, model.predict(X_dev))
-        f1_scores.append((score, regularization, model))
-        logging.info('Dev f1: {0}'.format(score))
+        score = accuracy_score(y_dev, model.predict(X_dev))
+        scores.append((score, regularization, model))
+        logging.info('Dev score: {0}'.format(score))
 
-    best_f1_score, best_regularization, best_model = max(f1_scores)
+    best_score, best_regularization, best_model = max(scores)
 
     logging.info('Loading test data...')
     X_test, y_test = read_dataset(os.path.join(args.prefix, 'test.json'))
     X_test = vectorizer.transform(X_test)
     y_pred = best_model.predict(X_test)
 
-    print('Tuned regularization parameter: {0} (f1={1})'.format(best_regularization, best_f1_score))
-    print('Test f1: {0}'.format(f1_score(y_test, y_pred)))
+    print('Tuned regularization parameter: {0} (score={1})'.format(best_regularization,
+                                                                   best_score))
+    print('Test score: {0}'.format(accuracy_score(y_test, y_pred)))
 
     weights = vectorizer.inverse_transform(best_model.coef_)[0]
     sorted_weights = sorted(weights.iteritems(), key=lambda x: x[1], reverse=True)
@@ -112,8 +114,8 @@ def main():
         for i, (feat, weight) in enumerate(iterator):
             print('{0:02d}: {1} {2}'.format(i+1, feat.encode('utf8'), weight))
 
-    print_weights('Most positive 30 weights', islice(sorted_weights, 30))
-    print_weights('Most negative 30 weights', islice(reversed(sorted_weights), 30))
+    print_weights('Most positive 1000 weights', islice(sorted_weights, 1000))
+    print_weights('Most negative 1000 weights', islice(reversed(sorted_weights), 1000))
 
     print_confusion_matrix(y_test, y_pred)
 
