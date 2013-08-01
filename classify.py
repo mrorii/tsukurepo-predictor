@@ -91,7 +91,7 @@ def main():
         model = LogisticRegression(penalty='l1', C=regularization, class_weight='auto')
         logging.info('regularization parameter: {0}'.format(regularization))
         model.fit(X_train, y_train)
-        score = accuracy_score(y_dev, model.predict(X_dev))
+        score = f1_score(y_dev, model.predict(X_dev))
         scores.append((score, regularization, model))
         logging.info('Dev score: {0}'.format(score))
 
@@ -104,7 +104,7 @@ def main():
 
     print('Tuned regularization parameter: {0} (score={1})'.format(best_regularization,
                                                                    best_score))
-    print('Test score: {0}'.format(accuracy_score(y_test, y_pred)))
+    print('Test score: {0}'.format(f1_score(y_test, y_pred)))
 
     weights = vectorizer.inverse_transform(best_model.coef_)[0]
     sorted_weights = sorted(weights.iteritems(), key=lambda x: x[1], reverse=True)
