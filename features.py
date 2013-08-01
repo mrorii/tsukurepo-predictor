@@ -104,10 +104,10 @@ def extract(filename):
                 features[ngram] = 1
             for ngram in title(recipe):
                 features[ngram] = 1
-            for ngram in history(recipe):
-                features[ngram] = 1
-            for ngram in advice(recipe):
-                features[ngram] = 1
+            # for ngram in history(recipe):
+            #     features[ngram] = 1
+            # for ngram in advice(recipe):
+            #     features[ngram] = 1
 
             features[author(recipe)] = 1
             features[('meta', 'inst_img')] = has_instruction_images(recipe)
