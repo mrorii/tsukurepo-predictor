@@ -13,12 +13,16 @@ import pylab as pl
 
 import features
 
-# MASK = set(['meta'])
-MASK = set(['meta', 'text'])
+def read_dataset(filename, use_text_features):
+    if use_text_features:
+        logging.info('Using meta+text features')
+        mask = set(['meta', 'text'])
+    else:
+        logging.info('Using meta features')
+        mask = set(['meta'])
 
-def read_dataset(filename):
     X, y = [], []
-    points = list(features.filter(features.extract(filename), MASK))
+    points = list(features.filter(features.extract(filename), mask))
     for f, v in points:
         X.append(f.todict())
         y.append(v)
@@ -69,12 +73,14 @@ def main():
                                        '{train,dev,test}.json')
     parser.add_argument('--pr_curve', help='File to save precision-recall curve')
     parser.add_argument('--model', help='Pickled file to save best model')
+    parser.add_argument('-t', action='store_true', help='Use text features')
+
     args = parser.parse_args()
 
     vectorizer = DictVectorizer()
 
     logging.info('Loading training data...')
-    X_train, y_train = read_dataset(os.path.join(args.prefix, 'train.json'))
+    X_train, y_train = read_dataset(os.path.join(args.prefix, 'train.json'), args.t)
 
     # Only include feature instances that occur in at least 3 different training instances
     logging.info('Pruning training data...')
@@ -82,7 +88,7 @@ def main():
     X_train = vectorizer.fit_transform(X_train)
 
     logging.info('Loading development data...')
-    X_dev, y_dev = read_dataset(os.path.join(args.prefix, 'dev.json'))
+    X_dev, y_dev = read_dataset(os.path.join(args.prefix, 'dev.json'), args.t)
     X_dev = vectorizer.transform(X_dev)
 
     logging.info('Training...')
@@ -98,7 +104,7 @@ def main():
     best_score, best_regularization, best_model = max(scores)
 
     logging.info('Loading test data...')
-    X_test, y_test = read_dataset(os.path.join(args.prefix, 'test.json'))
+    X_test, y_test = read_dataset(os.path.join(args.prefix, 'test.json'), args.t)
     X_test = vectorizer.transform(X_test)
     y_pred = best_model.predict(X_test)
 
