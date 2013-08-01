@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import logging
 import argparse
 import random
 import json
@@ -11,6 +12,8 @@ def load_data(filename):
             yield json.loads(line.strip())
 
 def main():
+    logging.basicConfig(level=logging.INFO, format='%(message)s')
+
     parser = argparse.ArgumentParser(description='Split data into train, dev, and test')
     parser.add_argument('json', help='Input data file')
     parser.add_argument('output_dir')
@@ -23,6 +26,9 @@ def main():
     data = list(load_data(args.json))
     pos_data = filter(lambda d: d['report_count'] >= args.threshold, data)
     neg_data = filter(lambda d: d['report_count'] < args.threshold, data)
+
+    logging.info('Size of pos data: {}'.format(len(pos_data)))
+    logging.info('Size of neg data: {}'.format(len(neg_data)))
 
     for d in pos_data:
         d['label'] = 1
