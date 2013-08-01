@@ -10,7 +10,11 @@ import MeCab
 import preprocessing
 import jptokenizer
 
-STOP_WORDS = set([u'話題', u'題入り', u'話'])
+STOP_WORDS = set([u'話題', u'入り', u'題入り', u'話', u'話題入り',
+                      u'祝', u'感謝', u'有難',
+                                        u'ありが', u'がとう', u'ござい', u'ありがとう'])
+
+
 
 class FeatureVector(dict):
     def todict(self):
