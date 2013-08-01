@@ -47,7 +47,7 @@ def _ngrams(tokens):
 def ngrams(string):
     tokens = tokenize(string)
     for (c, w) in _ngrams(tokens):
-        words = set(''.join(w.split()))
+        words = set(w.split())
         if words & STOP_WORDS:
             continue
         yield (c, w)
@@ -135,3 +135,7 @@ def prune(instances, threshold=5):
                 del instance[feature]
     return instances
 
+if __name__ == '__main__':
+    s = u'フライパン１つ♪もやしでボリュームたっぷりの１品です。２００７、７，２０に話題入りさせて頂き調度２ヶ月９，１９に１００人の方に作って頂きました❤皆さま本当にありがとうございました(o*。_。)oペコッ'
+    for c, w in ngrams(s):
+        print '{}\t{}'.format(c, w.encode('utf8'))
