@@ -15,10 +15,8 @@ import features
 
 def read_dataset(filename, use_text_features):
     if use_text_features:
-        logging.info('Using meta+text features')
         mask = set(['meta', 'text'])
     else:
-        logging.info('Using meta features')
         mask = set(['meta'])
 
     X, y = [], []
