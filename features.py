@@ -25,13 +25,22 @@ class FeatureVector(dict):
 
 mecab = MeCab.Tagger("-Owakati")
 
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def tokenize(s):
     string = s.encode("utf-8")
     output = mecab.parse(string)
     tokens = output.decode('utf8')
     for token in tokens.strip().split(' '):
-        yield token
+        if is_number(token):
+            yield u'<NUM>'
+        else:
+            yield token
 
 def _ngrams(tokens):
     """ N-gram features """
