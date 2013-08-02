@@ -99,6 +99,10 @@ def has_instruction_images(recipe):
     key = 'images_instruction'
     return int(key in recipe and len(recipe[key]) > 0)
 
+def has_main_image(recipe):
+    key = 'image_main'
+    return int(key in recipe and len(recipe[key]) > 0)
+
 def extract(filename):
     with open(filename) as f:
         for line in f:
@@ -107,8 +111,8 @@ def extract(filename):
 
             for ingredient in ingredients(recipe):
                 features[ingredient] = 1
-            for category in categories(recipe):
-                features[category] = 1
+            # for category in categories(recipe):
+            #     features[category] = 1
             for ngram in description(recipe):
                 features[ngram] = 1
             for ngram in title(recipe):
@@ -120,6 +124,7 @@ def extract(filename):
 
             features[author(recipe)] = 1
             features[('meta', 'inst_img')] = has_instruction_images(recipe)
+            features[('meta', 'main_img')] = has_main_image(recipe)
 
             label = recipe['label'] if 'label' in recipe else 0
             yield features, label
