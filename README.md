@@ -1,12 +1,13 @@
 # tsukurepo-predictor
 
-## Crawl cookpad recipes
+## Prerequisites
 
 You will first need to crawl Cookpad and extract recipes.
 Refer to https://github.com/mrorii/cookbot for an example Cookpad crawler.
+
 We assume that the recipes are saved in a file where each line
 is a JSON-encoded item representing a single recipe.
-An example recipe looks like the following:
+An example recipe should look like the following:
 
     {
         "id": 5678,
@@ -39,13 +40,13 @@ Install additional dependencies via `pip install -r requirements.txt`
 
 ### Split the data
 
-Split the data into train, dev, and test set.
+Split the data into train, dev, and test sets.
 The optional parameter `threshold` specifies the threshold
 (on the number of tsukurepos) used to determine
 whether a recipe should be labeled as positive or negative.
 
     mkdir -p data
-    python split_data.py --threshold 10 cookpad.json data
+    python split_data.py --threshold 5 cookpad.json data
 
 ### Train and test
 
