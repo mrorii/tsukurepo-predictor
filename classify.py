@@ -80,9 +80,8 @@ def main():
     logging.info('Loading training data...')
     X_train, y_train = read_dataset(os.path.join(args.prefix, 'train.json'), args.t)
 
-    # Only include feature instances that occur in at least 3 different training instances
     logging.info('Pruning training data...')
-    X_train = features.prune(X_train, threshold=3)
+    X_train = features.prune(X_train, threshold=[0.002, 0.998])
     X_train = vectorizer.fit_transform(X_train)
 
     logging.info('Loading development data...')

@@ -121,13 +121,18 @@ def filter(stream, mask):
         yield features, label
 
 
-def prune(instances, threshold=5):
+def prune(instances, threshold=[0.02, 0.98]):
+    assert(len(threshold) == 2 and threshold[0] < threshold[1])
     feature_counts = Counter()
     for instance in instances:
         for feature in instance:
             feature_counts[feature] += 1
 
-    valid_features = set(f for f in feature_counts if feature_counts[f] >= threshold)
+    num_data = len(instances)
+    cutoffs = map(lambda threshold: int(threshold * num_data), threshold)
+
+    valid_features = set(f for f in feature_counts if feature_counts[f] >= cutoffs[0] and
+                                                      feature_counts[f] <= cutoffs[1])
 
     for instance in instances:
         for feature in instance.keys():
