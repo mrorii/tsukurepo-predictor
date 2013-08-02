@@ -1,6 +1,5 @@
 matplotlib
 networkx
-nltk
 numpy
 scipy
 sklearn
