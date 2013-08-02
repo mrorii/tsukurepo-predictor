@@ -115,7 +115,7 @@ def main():
     def print_weights(heading, iterator):
         print(heading)
         for i, (feat, weight) in enumerate(iterator):
-            print('{0:02d}: {1} {2}'.format(i+1, feat.encode('utf8'), weight))
+            print('{0:.4f}  {1}'.format(weight, feat.encode('utf8')))
 
     print_weights('Most positive 1000 weights', islice(sorted_weights, 1000))
     print_weights('Most negative 1000 weights', islice(reversed(sorted_weights), 1000))
