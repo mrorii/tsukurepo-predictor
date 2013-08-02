@@ -11,10 +11,10 @@ import preprocessing
 import jptokenizer
 
 STOP_WORDS = set([u'話題', u'入り', u'題入り', u'話', u'話題入り',
-                  u'祝', u'感謝', u'有難',
-                  u'ありが', u'がとう', u'ござい', u'ありがとう'])
-
-
+                  u'祝', u'感謝', u'有難', u'', u'ありが', u'がとう',
+                  u'有難う', u'ござい', u'ありがとう',
+                  u'達成', u'ピックアップ', u'つくれ', u'ぽ', u'件',
+                  u'<NUM>'])
 
 class FeatureVector(dict):
     def todict(self):
