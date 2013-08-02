@@ -32,7 +32,7 @@ def main():
     parser.add_argument('output_dir')
     parser.add_argument('--threshold', type=int, default=10)
     parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--crawl_date', type=read_date, default='2013-07-22')
+    parser.add_argument('--crawl_date', type=read_date, default='2013-08-01')
     args = parser.parse_args()
 
     random.seed(args.seed)
