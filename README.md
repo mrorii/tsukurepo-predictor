@@ -11,10 +11,10 @@ An example recipe should look like the following:
 
     {
         "id": 5678,
-        "name": "mokomichi's olive oil carbonara"
+        "name": "mokomichi's olive oil carbonara",
         "description": "foobar",
         "category": 11,
-        "categories": [177, 11, 589, 830]
+        "categories": [177, 11, 589, 830],
         "ingredients": ["olive oil", "fettucine", "egg", "bacon", "black pepper"],
         "author": 1234,
         "report_count": 10,
